@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+enum image_type {
+    JPG, PNG, ERR
+};
+
 struct image {
     uint8_t* data;      // actual image data
     int w;              // width of image
@@ -17,6 +21,8 @@ struct image {
 
     bool read(const char* filename);
     bool write(const char* filename);
+
+    image_type get_file_type(const char* filename);
 };
 
 #endif

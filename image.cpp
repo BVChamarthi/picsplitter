@@ -5,9 +5,41 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
+image_type image::get_file_type(const char* filename) {
+    const char* ext = strrchr(filename, '.');
+    if(ext != nullptr) {
+        if(strcmp(ext, ".png"))
+            return PNG;
+        else if(strcmp(ext, ".jpg"))
+            return JPG;
+        else
+            return ERR;
+    }
+    return ERR;
+}
+
 bool image::read(const char* filename) {
     data = stbi_load(filename, &w, &h, &c, 0);
     return (data != nullptr);
+}
+
+bool image::write(const char* filename) {
+    image_type type = get_file_type(filename);
+    int success;
+    switch (type)
+    {
+        case PNG:
+            success = stbi_write_png(filename, w, h, c, data, w*c);
+            break;
+        case JPG:
+            success = stbi_write_jpg(filename, w, h, c, data, 100);
+            break;
+
+        default:
+            success = 0;
+            break;
+    }
+    return (success != 0);
 }
 
 image::image(const char* filename) {
