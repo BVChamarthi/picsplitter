@@ -3,8 +3,8 @@
 #include <cstdio>
 #include <iostream>
 
-image** vertical_split(image* img, int num_splits) {
-    int sp_w = img->w / num_splits;
+image** vertical_split(image* img, int sp_w) {
+    int num_splits = img->w / sp_w;
 
     image** imgs = new image*[num_splits + 2];
     imgs[num_splits+1] = nullptr;
@@ -18,8 +18,8 @@ image** vertical_split(image* img, int num_splits) {
     return imgs;
 }
 
-image** horizontal_split(image* img, int num_splits) {
-    int sp_h = img->h / num_splits;
+image** horizontal_split(image* img, int sp_h) {
+    int num_splits = img->h / sp_h;
 
     image** imgs = new image*[num_splits + 2];
     imgs[num_splits+1] = nullptr;
@@ -35,7 +35,7 @@ image** horizontal_split(image* img, int num_splits) {
 
 int main() {
     image img("1.png");
-    image** imgs = horizontal_split(&img, 6);
+    image** imgs = horizontal_split(&img, 1280);
 
     char filename[50];
     for(int i = 0; imgs[i] != nullptr; i++) {
