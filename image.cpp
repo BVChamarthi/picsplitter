@@ -4,6 +4,7 @@
 #include "image.h"
 #include "stb_image.h"
 #include "stb_image_write.h"
+#include <iostream>
 
 image_type get_file_type(const char* filename) {
     const char* ext = strrchr(filename, '.');

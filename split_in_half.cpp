@@ -1,25 +1,33 @@
 #include "image.h"
+#include <vector>
+#include <cstdio>
+#include <iostream>
+
+image** vertical_split(image* img, int num_splits) {
+    int sp_w = img->w / num_splits;
+
+    image** imgs = new image*[num_splits + 2];
+    imgs[num_splits+1] = nullptr;
+
+    for(int i = 0; i < num_splits; i++) {
+        std::cout << "(" << i*sp_w << ", " << 0 << "), (" << (i+1)*sp_w << ", " << img->h << ")\n";
+        image* f_img = img->get_selection(i*sp_w, 0, (i+1)*sp_w, img->h);
+        imgs[i] = f_img;
+    }
+    imgs[num_splits] = img->get_selection(num_splits*sp_w, 0, img->w, img->h);
+
+    return imgs;
+}
 
 int main() {
     image img("test.png");
+    image** imgs = vertical_split(&img, 2);
 
-    image left_split(img.w/2, img.h, img.c);
-    image right_split(img.w/2, img.h, img.c);
-
-    int w = left_split.w, h = left_split.h, c = left_split.c;
-
-
-    for(int x = 0; x < w; x ++) {
-        for(int y = 0; y < h; y++) {
-            for(int z = 0; z < c; z++) {
-                left_split.data[y*w*c + x*c + z] = img.data[y*w*2*c + x*c + z];
-                right_split.data[y*w*c + x*c + z] = img.data[y*w*2*c + w*c + x*c + z];
-            }
-        }
+    char filename[50];
+    for(int i = 0; imgs[i] != nullptr; i++) {
+        sprintf(filename, "vsplit/v%d.png", i);
+        if(imgs[i]->size != 0) imgs[i]->write(filename);
     }
-
-    left_split.write("vsplit/test_left.png");
-    right_split.write("vsplit/test_right.png");
 
     return 0;
 }
