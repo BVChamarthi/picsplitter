@@ -5,7 +5,7 @@
 #include "stb_image.h"
 #include "stb_image_write.h"
 
-image_type image::get_file_type(const char* filename) {
+image_type get_file_type(const char* filename) {
     const char* ext = strrchr(filename, '.');
     if(ext != nullptr) {
         if(strcmp(ext, ".png"))
@@ -58,4 +58,10 @@ image::image(const image& img) {
 
 image::~image() {
     stbi_image_free(data);
+}
+
+image* image::get_selection(int x0, int y0, int x1, int y1) {
+    if(x0 < 0 || y0 < 0 || x1 >= w || y1 >= h || x0 > x1 || y0 > y1) {
+
+    }
 }

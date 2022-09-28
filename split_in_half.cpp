@@ -18,8 +18,8 @@ int main() {
         }
     }
 
-    left_split.write("test_left.png");
-    right_split.write("test_right.png");
+    left_split.write("vsplit/test_left.png");
+    right_split.write("vsplit/test_right.png");
 
     return 0;
 }

@@ -7,6 +7,8 @@ enum image_type {
     JPG, PNG, ERR
 };
 
+image_type get_file_type(const char* filename);
+
 struct image {
     uint8_t* data;      // actual image data
     int w;              // width of image
@@ -22,7 +24,7 @@ struct image {
     bool read(const char* filename);
     bool write(const char* filename);
 
-    image_type get_file_type(const char* filename);
+    image* get_selection(int x0, int y0, int x1, int y1);
 };
 
 #endif
