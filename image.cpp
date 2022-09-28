@@ -61,7 +61,20 @@ image::~image() {
 }
 
 image* image::get_selection(int x0, int y0, int x1, int y1) {
-    if(x0 < 0 || y0 < 0 || x1 >= w || y1 >= h || x0 > x1 || y0 > y1) {
+    if(x0 < 0 || y0 < 0 || x1 > w || y1 > h || x0 > x1 || y0 > y1)
+        return new image(0, 0, 0);
+    
+    int x = x1 - x0;
+    int y = y1 - y0;
+    image* selection = new image(x, y, c);
 
+    for(int i = 0; i < x; i++) {
+        for(int j = 0; j < y; j++) {
+            for(int k = 0; k < c; k++) {
+                selection->data[j*x*c + i*c + k] = data[(y0+j)*w*c + (x0+i)*c + k];
+            }
+        }
     }
+
+    return selection;
 }
